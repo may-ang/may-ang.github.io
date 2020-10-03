@@ -81,6 +81,8 @@ $( document ).ready(function() {
       }
     };
 
+
+
     recognition.onend = function() {
       recognizing = false;
       if (ignore_onend) {
@@ -92,24 +94,28 @@ $( document ).ready(function() {
         return;
       }
       showInfo('stop');
-      if (window.getSelection) {
-        window.getSelection().removeAllRanges();
-        var range = document.createRange();
-        range.selectNode(document.getElementById('final_span'));
-        window.getSelection().addRange(range);
-      }
+//      if (window.getSelection) {
+//        window.getSelection().removeAllRanges();
+//        var range = document.createRange();
+//        range.selectNode(document.getElementById('final_span'));
+//        window.getSelection().addRange(range);
+//      }
+      recognition.start();
     };
 
     recognition.onresult = function(event) {
       var interim_transcript = '';
       for (var i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-          final_transcript += event.results[i][0].transcript;
+          final_transcript += event.results[i][0].transcript + '.';
+          final_transcript = capitalize(final_transcript);
         } else {
           interim_transcript += event.results[i][0].transcript;
         }
       }
-      final_transcript = capitalize(final_transcript);
+//      final_transcript = capitalize(final_transcript);
+//      interim_transcript = capitalize(interim_transcript);
+//      console.log(interim_transcript);
       final_span.innerHTML = linebreak(final_transcript);
       interim_span.innerHTML = linebreak(interim_transcript);
     };
@@ -140,9 +146,11 @@ function linebreak(s) {
   return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
 }
 
-var first_char = /\S/;
+//var first_char = /\S/;
 function capitalize(s) {
-  return s.replace(first_char, function(m) { return m.toUpperCase(); });
+//  return s.replace(first_char, function(m) { return m.toUpperCase(); });
+console.log(s);
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 $("#copy_button").click(function () {
