@@ -1,9 +1,9 @@
 var messages = {
   "start": {
-    msg: 'Click on the microphone icon and begin speaking.',
+    msg: 'Click on the microphone to start live captioning.',
     class: 'alert-success'},
   "speak_now": {
-    msg: 'Speak now.',
+    msg: 'Listening ...',
     class: 'alert-success'},
   "no_speech": {
     msg: 'No speech was detected. You may need to adjust your <a href="//support.google.com/chrome/answer/2693767" target="_blank">microphone settings</a>.',
@@ -38,13 +38,15 @@ var start_timestamp;
 var recognition;
 
 $( document ).ready(function() {
+
   for (var i = 0; i < langs.length; i++) {
     select_language.options[i] = new Option(langs[i][0], i);
   }
   select_language.selectedIndex = 6;
   updateCountry();
   select_dialect.selectedIndex = 6;
-  
+
+//  $(document).scrollTop($(document).height());
   if (!('webkitSpeechRecognition' in window)) {
     upgrade();
   } else {
