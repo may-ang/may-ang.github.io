@@ -159,6 +159,7 @@ $("#copy_button").click(function () {
   if (recognizing) {
     recognizing = false;
     recognition.stop();
+    showInfo('stop');
   }
   setTimeout(copyToClipboard, 500);
   
@@ -182,15 +183,19 @@ function copyToClipboard() {
 
 $("#start_button").click(function () {
   if (recognizing) {
-    recognition.stop();
+   recognizing = false;
+    ignore_onend = true;
+   recognition.stop();
+    showInfo('stop');
+    start_img.src = 'images/mic.gif';
     return;
   }
   final_transcript = '';
   recognition.lang = select_dialect.value;
   recognition.start();
   ignore_onend = false;
-  final_span.innerHTML = '';
-  interim_span.innerHTML = '';
+//  final_span.innerHTML = '';
+//  interim_span.innerHTML = '';
   start_img.src = 'images/mic-slash.gif';
   showInfo('allow');
   start_timestamp = event.timeStamp;
