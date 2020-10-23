@@ -1,3 +1,16 @@
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+
+var grammar = '#JSGF V1.0; grammar phrase';
+var recognition = new SpeechRecognition();
+var speechRecognitionList = new SpeechGrammarList();
+speechRecognitionList.addFromString(grammar, 1);
+recognition.grammars = speechRecognitionList;
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
+
 var messages = {
   "start": {
     msg: 'Click on the microphone to start live captioning.',
@@ -35,7 +48,9 @@ var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
 var start_timestamp;
-var recognition;
+//var recognition;
+
+
 
 $( document ).ready(function() {
 
@@ -52,7 +67,8 @@ $( document ).ready(function() {
   } else {
     showInfo('start');  
     start_button.style.display = 'inline-block';
-    recognition = new webkitSpeechRecognition();
+    recognition = new SpeechRecognition();
+//    recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
 
